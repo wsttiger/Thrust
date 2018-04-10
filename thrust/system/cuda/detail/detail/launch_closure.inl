@@ -47,14 +47,22 @@ namespace detail
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 template<typename Closure>
+#if defined(__HIP_PLATFORM_HCC__)
+__global__ 
+#else
 __global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
+#endif
 void launch_closure_by_value(Closure f)
 {
   f();
 }
 
 template<typename Closure>
+#if defined(__HIP_PLATFORM_HCC__)
+__global__ 
+#else
 __global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
+#endif
 void launch_closure_by_pointer( const Closure *f)
 {
   // copy to registers

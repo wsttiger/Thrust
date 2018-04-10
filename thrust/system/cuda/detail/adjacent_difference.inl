@@ -190,7 +190,11 @@ OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
 
   Closure closure(first, temp.begin(), result, binary_op, decomp); 
 
+#if defined(__HIP_PLATFORM_HCC__)
+  detail::launch_closure(exec, closure, 64, 256);
+#else
   detail::launch_closure(exec, closure, decomp.size());
+#endif
   
   return result + n;
 } // end adjacent_difference()

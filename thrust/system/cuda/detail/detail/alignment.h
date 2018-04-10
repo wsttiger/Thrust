@@ -68,7 +68,7 @@ template<typename T>
 template<std::size_t Align> struct aligned_type;
 
 // __align__ is CUDA-specific, so guard it
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if 0
 
 // implementing aligned_type portably is tricky:
 
